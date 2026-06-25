@@ -1,11 +1,16 @@
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 import crypto, { randomBytes } from "crypto";
+
+// Pastikan folder uploads ada (CI / fresh checkout tidak punya folder ini)
+const uploadDir = path.join(__dirname, "../../uploads");
+fs.mkdirSync(uploadDir, { recursive: true });
 
 // Konfigurasi multer untuk menyimpan file di folder uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../../uploads")); // Folder tujuan
+    cb(null, uploadDir); // Folder tujuan
   },
   filename: (req, file, cb) => {
     // Tambahkan ekstensi dengan pasti
