@@ -18,11 +18,13 @@ import publicRoutes from "./routes/public.routes";
 const app = express();
 
 export const allowedOrigins = [
-  // "https://wildantfq.my.id",
   "http://localhost:5173",
   "http://localhost:4173",
   "http://sikosa.my.id",
   "https://sikosa.my.id",
+  "https://www.sikosa.my.id",
+  "https://api.sikosa.my.id",
+  "https://test.sikosa.my.id",
 ];
 
 app.use(express.json());
