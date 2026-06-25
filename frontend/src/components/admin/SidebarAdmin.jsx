@@ -32,7 +32,7 @@ const AdminSidebar = () => {
       <aside
         className={`fixed top-14 bottom-0 left-0 w-64 bg-white py-2 px-3 transform ${
           isDrawerOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform lg:translate-x-0 lg:static lg:top-auto lg:bottom-auto z-50 shadow-lg min-h-screen flex flex-col justify-between font-jakarta`}
+        } transition-transform lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto z-50 shadow-lg flex flex-col justify-between font-jakarta`}
       >
         <div>
           {/* Close Button for Drawer */}
