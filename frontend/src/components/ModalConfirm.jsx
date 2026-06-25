@@ -7,7 +7,7 @@ const ModalConfirm = ({ message, isOpen, confirmHandle, cancelHandle }) => {
         isOpen ? "flex" : "hidden"
       }`}
     >
-      <div className="bg-white w-[60%] md:w-[40%] rounded-md flex flex-col items-center gap-4 p-4">
+      <div className="bg-white w-[90%] sm:w-[60%] md:w-[40%] rounded-md flex flex-col items-center gap-4 p-4">
         <IoWarning className="text-orange-400 text-6xl" />
         <h4 className="font-semibold text-sm">{message}</h4>
         <div className="flex items-center gap-4">

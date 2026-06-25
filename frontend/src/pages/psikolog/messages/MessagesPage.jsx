@@ -216,9 +216,9 @@ const MessagesPage = () => {
   };
 
   return (
-    <div className="flex pt-16 lg:pt-0 lg:px-4 h-screen flex-col lg:flex-row">
+    <div className="flex pt-16 lg:pt-0 lg:px-4 h-[calc(100vh-4rem)] lg:h-screen overflow-hidden flex-col lg:flex-row">
       {/* Left Container - Chat Rooms List */}
-      <div className="w-full lg:w-1/3 pr-4 h-full mb-6 lg:mb-0 border-r border-gray-300">
+      <div className="w-full lg:w-1/3 pr-4 flex flex-col min-h-0 mb-6 lg:mb-0 border-r border-gray-300">
         <h2 className="text-xl font-semibold mb-4">Messages</h2>
 
         <div className="mb-6 relative">
@@ -232,7 +232,7 @@ const MessagesPage = () => {
           <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
         </div>
 
-        <div className="space-y-4 overflow-y-auto h-3/4">
+        <div className="space-y-4 overflow-y-auto flex-1 min-h-0">
           {loading ? (
             <p className="text-center text-gray-500">Loading chat rooms...</p>
           ) : error ? (
@@ -266,7 +266,7 @@ const MessagesPage = () => {
       </div>
 
       {/* Right Container - Chat Messages */}
-      <div className="w-full lg:w-2/3 pl-4 flex flex-col h-full overflow-hidden">
+      <div className="w-full lg:w-2/3 pl-4 flex flex-col min-h-0 overflow-hidden">
         {selectedRoom ? (
           <>
             {/* Header Chat */}
