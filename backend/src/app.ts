@@ -13,6 +13,7 @@ import articleRoutes from "./routes/article.routes";
 import adminRoutes from "./routes/admin.routes";
 import chatRoutes from "./routes/chat.routes";
 import chatbotRouter from "./routes/chatbot.routes";
+import publicRoutes from "./routes/public.routes";
 
 const app = express();
 
@@ -45,6 +46,9 @@ app.get("/api", ({ req, res }: any) => {
     status: "Connected!!!",
   });
 });
+
+// public routes - no auth required
+app.use("/api/public", publicRoutes);
 
 // chatbot
 app.use("/api/chatbot", chatbotRouter);

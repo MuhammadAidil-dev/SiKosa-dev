@@ -13,7 +13,8 @@
     "seed": "ts-node -r dotenv/config src/seeds/index.ts",
     "seed:fresh": "ts-node -r dotenv/config src/seeds/index.ts --fresh",
     "seed:users": "ts-node -r dotenv/config src/seeds/userSeeder.ts",
-    "seed:users:fresh": "ts-node -r dotenv/config src/seeds/userSeeder.ts --fresh"
+    "seed:users:fresh": "ts-node -r dotenv/config src/seeds/userSeeder.ts --fresh",
+    "seed:clear": "ts-node -r dotenv/config src/seeds/clearAll.ts"
   },
   "keywords": [],
   "author": "",
