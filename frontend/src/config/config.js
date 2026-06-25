@@ -1,6 +1,6 @@
 const CONFIG = {
   BASE_URL: `${import.meta.env.VITE_API_URL}/api`,
-  SOCKET_BASE_URL: import.meta.env.VITE_GROQ_API_KEY,
+  SOCKET_BASE_URL: import.meta.env.VITE_API_URL,
 };
 
 export default CONFIG;
