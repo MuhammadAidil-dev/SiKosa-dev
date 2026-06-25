@@ -3,90 +3,21 @@ import Breadcrumb from "../../../components/user/components/daftar-layanan/Bread
 import TitleAndDescription from "../../../components/user/components/daftar-layanan/TitleDescription";
 import ServiceCard from "../../../components/user/components/daftar-layanan/ServiceCard";
 import ServicePagination from "../../../components/user/components/daftar-layanan/PaginationService";
-import { getAllPsikolog } from "../../../utils/api";
-import { useAuth } from "../../../hooks/hooks";
+import { getAllPsikologPublic } from "../../../utils/api";
 
 const Service = () => {
-  const { authUser } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const servicesPerPage = 8;
   const [psikologs, setPsikologs] = useState([]);
 
   const indexOfLastService = currentPage * servicesPerPage;
   const indexOfFirstService = indexOfLastService - servicesPerPage;
-  const currentServices = psikologs.slice(
-    indexOfFirstService,
-    indexOfLastService
-  );
-
-  // dummy data psikolog when user not log in
-  const dummyPsikologs = [
-    {
-      profile: {
-        picture: "/assets/login.png",
-        fullname: "psikolog",
-        description: "",
-        educationBackground: [],
-        specialization: "psikolog",
-      },
-      id: "1",
-      email: "",
-      nim: "",
-      verified: false,
-      role: "psikolog",
-      __v: 1,
-    },
-    {
-      profile: {
-        picture: "/assets/login.png",
-        fullname: "psikolog",
-        description: "",
-        educationBackground: [],
-        specialization: "psikolog",
-      },
-      id: "2",
-      email: "",
-      nim: "",
-      verified: false,
-      role: "psikolog",
-      __v: 1,
-    },
-    {
-      profile: {
-        picture: "/assets/login.png",
-        fullname: "psikolog",
-        description: "",
-        educationBackground: [],
-        specialization: "psikolog",
-      },
-      id: "3",
-      email: "",
-      nim: "",
-      verified: false,
-      role: "psikolog",
-      __v: 1,
-    },
-    {
-      profile: {
-        picture: "/assets/login.png",
-        fullname: "psikolog",
-        description: "",
-        educationBackground: [],
-        specialization: "psikolog",
-      },
-      id: "4",
-      email: "",
-      nim: "",
-      verified: false,
-      role: "psikolog",
-      __v: 1,
-    },
-  ];
+  const currentServices = psikologs.slice(indexOfFirstService, indexOfLastService);
 
   useEffect(() => {
     const fetchPsikologs = async () => {
       try {
-        const response = await getAllPsikolog();
+        const response = await getAllPsikologPublic();
         if (response.error) {
           throw new Error("Failed to get psikologs");
         }
@@ -104,11 +35,7 @@ const Service = () => {
         console.log(error.message);
       }
     };
-    if (authUser) {
-      fetchPsikologs();
-    } else {
-      setPsikologs(dummyPsikologs);
-    }
+    fetchPsikologs();
   }, []);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);

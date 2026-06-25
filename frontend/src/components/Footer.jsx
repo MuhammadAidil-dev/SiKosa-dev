@@ -13,8 +13,10 @@ const Footer = () => {
             <h2 className="font-bold text-xl">Sikosa</h2>
           </div>
           <div>
-            <p className="text-sm font-semibold">Jl. Raya Cibolang Cisaat - Sukabumi</p>
-            <p className="text-sm font-semibold">Jawa Barat, Indonesia</p>
+            <p className="text-sm font-semibold">Muhammad Aidil</p>
+            <p className="text-sm font-semibold">NIM: 403221010060</p>
+            <p className="text-sm font-semibold">Prodi Sistem Informasi</p>
+            <p className="text-sm font-semibold">Tembilahan, Kab. Indragiri Hilir, Riau</p>
           </div>
           {/* Social Media and WhatsApp */}
           <div className="flex space-x-6 items-center">

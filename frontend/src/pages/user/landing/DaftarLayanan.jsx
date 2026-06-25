@@ -3,11 +3,9 @@ import { motion } from "framer-motion";
 import LayananItem from "../../../components/user/components/layanan/LayananItem";
 import Pagination from "../../../components/user/components/layanan/LayananPagination";
 import ReasonsSection from "../../../components/user/components/layanan/reasonsection";
-import { getAllPsikolog } from "../../../utils/api";
-import { useAuth } from "../../../hooks/hooks";
+import { getAllPsikologPublic } from "../../../utils/api";
 
 const DaftarLayanan = () => {
-  const { authUser } = useAuth();
   const itemsPerPage = 2;
   const [currentPage, setCurrentPage] = useState(1);
   const [psikologs, setPsikologs] = useState([]);
@@ -16,29 +14,10 @@ const DaftarLayanan = () => {
   const startIdx = (currentPage - 1) * itemsPerPage;
   const currentLayanan = psikologs.slice(startIdx, startIdx + itemsPerPage);
 
-  // dummy data psikolog when user not log in
-  const dummyPsikologs = [
-    {
-      profile: {
-        picture: "/assets/login.png",
-        fullname: "psikolog",
-        description: "",
-        educationBackground: [],
-        specialization: "psikolog",
-      },
-      _id: "1",
-      email: "",
-      nim: "",
-      verified: false,
-      role: "psikolog",
-      __v: 1,
-    },
-  ];
-
   useEffect(() => {
     const fetchPsikologs = async () => {
       try {
-        const response = await getAllPsikolog();
+        const response = await getAllPsikologPublic();
         if (response.error) {
           throw new Error("Failed to get psikologs");
         }
@@ -56,12 +35,8 @@ const DaftarLayanan = () => {
         console.log(error.message);
       }
     };
-    if (authUser) {
-      fetchPsikologs();
-    } else {
-      setPsikologs(dummyPsikologs);
-    }
-  }, [authUser]);
+    fetchPsikologs();
+  }, []);
 
   const handlePrev = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
