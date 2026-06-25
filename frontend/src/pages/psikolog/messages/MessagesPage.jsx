@@ -152,7 +152,7 @@ const MessagesPage = () => {
   }, [selectedRoom, userId]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
 
   const handleSendMessage = async () => {
