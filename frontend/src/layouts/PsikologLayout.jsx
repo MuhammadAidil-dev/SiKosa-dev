@@ -30,7 +30,7 @@ const PsikologLayout = ({ children }) => {
     <div className="bg-white min-h-screen flex flex-col">
       <div className="flex flex-col lg:flex-row flex-1">
         <PsikologSidebar />
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-0">
           <main className="flex-1 p-5">
             {children}
           </main>
