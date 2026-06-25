@@ -58,7 +58,7 @@ const Footer = () => {
 
       {/* Footer Bottom */}
       <div className="mt-6 border-t border-white pt-4 text-sm font-semibold text-white text-center">
-        © Sikosa all rights 2024 - Designed by
+        © Sikosa all rights {new Date().getFullYear()} - Designed by Muhammad Aidil
       </div>
     </footer>
   );
