@@ -349,7 +349,7 @@ const PengajuanKonsultasi = ({ handlePengajuan, psikolog, statusPengajuan, authU
 
 const ChatSection = ({ messages, message, setMessage, handleSendMessage, psikolog }) => {
   return (
-    <div className="flex-1 lg:w-2/3 border bg-[#EBF6FF] px-4 py-8 rounded-lg shadow-lg flex flex-col">
+    <div className="flex-1 lg:w-2/3 border bg-[#EBF6FF] px-4 py-8 rounded-lg shadow-lg flex flex-col h-[500px]">
       <PesanChat messages={messages} psikolog={psikolog} />
       <ChatInput message={message} setMessage={setMessage} handleSendMessage={handleSendMessage} />
     </div>
