@@ -56,7 +56,8 @@ const MessagesPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      const activeRooms = response.data.filter((item) => item.status !== "inactive");
+      const rooms = Array.isArray(response.data) ? response.data : (response.data?.data ?? []);
+      const activeRooms = rooms.filter((item) => item.status !== "inactive");
       setChatRooms(activeRooms);
       setFilteredRooms(activeRooms.slice().reverse());
       setLoading(false);
