@@ -39,20 +39,15 @@ jobs:
         run: npm install
 
       - name: Create .env.test
-        env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
-          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: |
           {
             echo "NODE_ENV='test'"
             echo "APP_ORIGIN='http://localhost:5173'"
             echo "MONGO_URI='mongodb://localhost:27017/sikosa'"
-            echo "JWT_SECRET='$JWT_SECRET'"
-            echo "JWT_REFRESH_SECRET='$JWT_REFRESH_SECRET'"
-            echo "EMAIL_SENDER='$EMAIL_SENDER'"
-            echo "RESEND_API_KEY='$RESEND_API_KEY'"
+            echo "JWT_SECRET='ci_jwt_secret_key'"
+            echo "JWT_REFRESH_SECRET='ci_jwt_refresh_secret'"
+            echo "EMAIL_SENDER='test@example.com'"
+            echo "RESEND_API_KEY='re_test_dummy'"
             echo "FE_ORIGIN='http://localhost:5173'"
             echo "PORT='5000'"
             echo "GROQ_API_KEY='test-api-key'"
