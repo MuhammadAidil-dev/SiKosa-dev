@@ -16,6 +16,11 @@ jobs:
         image: mongo:6
         ports:
           - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ping: 1})'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     defaults:
       run:
@@ -35,18 +40,18 @@ jobs:
 
       - name: Create .env.test
         run: |
-          cat > .env.test << 'EOF'
-          NODE_ENV = 'test'
-          APP_ORIGIN = 'http://localhost:5173'
-          MONGO_URI = 'mongodb://localhost:27017/sikosa'
-          JWT_SECRET = '${{ secrets.JWT_SECRET }}'
-          JWT_REFRESH_SECRET = '${{ secrets.JWT_REFRESH_SECRET }}'
-          EMAIL_SENDER = '${{ secrets.EMAIL_SENDER }}'
-          RESEND_API_KEY = '${{ secrets.RESEND_API_KEY }}'
-          FE_ORIGIN = 'http://localhost:5173'
-          PORT = '5000'
-          GROQ_API_KEY = 'test-api-key'
-          EOF
+          {
+            echo "NODE_ENV='test'"
+            echo "APP_ORIGIN='http://localhost:5173'"
+            echo "MONGO_URI='mongodb://localhost:27017/sikosa'"
+            echo "JWT_SECRET='ci_jwt_secret_key'"
+            echo "JWT_REFRESH_SECRET='ci_jwt_refresh_secret'"
+            echo "EMAIL_SENDER='test@example.com'"
+            echo "RESEND_API_KEY='re_test_dummy'"
+            echo "FE_ORIGIN='http://localhost:5173'"
+            echo "PORT='5000'"
+            echo "GROQ_API_KEY='test-api-key'"
+          } > .env.test
 
       - name: Run Tests
         run: npm test
