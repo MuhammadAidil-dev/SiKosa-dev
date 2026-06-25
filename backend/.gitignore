@@ -1,0 +1,8 @@
+.env.test
+
+# JEST REPORT
+/reports/*
+
+# DOCS
+/docs
+/docs/*
