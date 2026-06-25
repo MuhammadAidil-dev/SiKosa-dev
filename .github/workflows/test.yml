@@ -53,6 +53,9 @@ jobs:
             echo "GROQ_API_KEY='test-api-key'"
           } > .env.test
 
+      - name: Debug env file
+        run: cat .env.test
+
       - name: Run Tests
         run: npm test
 
