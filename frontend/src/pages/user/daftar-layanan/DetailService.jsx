@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
-import { getPsikologById } from "../../../utils/api";
+import { getPsikologByIdPublic } from "../../../utils/api";
 import { useAuth } from "../../../hooks/hooks";
 import CONFIG from "../../../config/config";
 import { formattedString } from "../../../utils/utils";
@@ -9,19 +9,13 @@ import { formattedString } from "../../../utils/utils";
 const DetailPsikolog = () => {
   const { id_psikolog } = useParams();
   const [psikologDetail, setPsikologDetail] = useState(null);
-
   const { authUser } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!authUser) {
-      navigate("/login");
-    }
-  }, [authUser]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getPsikologById(id_psikolog);
+        const result = await getPsikologByIdPublic(id_psikolog);
         if (result.error) {
           throw new Error(result.message);
         }
@@ -30,10 +24,15 @@ const DetailPsikolog = () => {
         alert(error.message);
       }
     };
-    if (authUser) {
-      fetchData();
+    fetchData();
+  }, [id_psikolog]);
+
+  const handleChatClick = (e) => {
+    if (!authUser) {
+      e.preventDefault();
+      navigate("/login");
     }
-  }, [authUser, id_psikolog]);
+  };
 
   if (!psikologDetail) {
     return null;
@@ -108,6 +107,7 @@ const DetailPsikolog = () => {
           <Link
             data-cy="chat-button"
             to={`/dokter/${psikologDetail._id}`}
+            onClick={handleChatClick}
             className="bg-[#35A7FF] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#5DB9FF]"
           >
             Chat

@@ -75,6 +75,22 @@ const getAllPsikolog = async () => {
   }
 };
 
+const getAllPsikologPublic = async () => {
+  try {
+    const response = await fetch(`${CONFIG.BASE_URL}/public/psikolog/all`);
+    if (!response.ok) {
+      throw new Error("Failed to get psikologs");
+    }
+    const result = await response.json();
+    if (result.data) {
+      return { error: false, psikologs: result.data };
+    }
+    return { error: true, psikologs: null };
+  } catch (error) {
+    return { error: true, psikologs: null };
+  }
+};
+
 const getPsikologById = async (psikologId) => {
   try {
     const accessToken = getAccessToken();
@@ -90,6 +106,19 @@ const getPsikologById = async (psikologId) => {
       throw new Error("Failed to get detail psikolog");
     }
 
+    const result = await response.json();
+    return { error: false, message: result.message, data: result.data };
+  } catch (error) {
+    return { error: true, message: error.message, data: null };
+  }
+};
+
+const getPsikologByIdPublic = async (psikologId) => {
+  try {
+    const response = await fetch(`${CONFIG.BASE_URL}/public/psikolog/${psikologId}`);
+    if (!response.ok) {
+      throw new Error("Failed to get detail psikolog");
+    }
     const result = await response.json();
     return { error: false, message: result.message, data: result.data };
   } catch (error) {
@@ -566,7 +595,9 @@ const adminGetConsultations = async () => {
 export {
   updateProfile,
   getAllPsikolog,
+  getAllPsikologPublic,
   getPsikologById,
+  getPsikologByIdPublic,
   updateProfilePsikolog,
   getArticles,
   getArticlesByWriter,
