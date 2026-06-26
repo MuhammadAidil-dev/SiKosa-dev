@@ -3,6 +3,7 @@ import { Schema, model, Document, Types } from "mongoose";
 export interface ConsultationDocument extends Document {
   userId: Types.ObjectId | { _id: Types.ObjectId; profile?: { fullname: string }; email: string };
   psychologistId: Types.ObjectId;
+  message: string;
   status: "pending" | "accepted" | "rejected";
   createdAt: Date;
 }
@@ -15,6 +16,7 @@ const ConsultationSchema = new Schema<ConsultationDocument>(
       ref: "User",
       required: true,
     },
+    message: { type: String, required: true },
     status: {
       type: String,
       enum: ["pending", "accepted", "rejected"],

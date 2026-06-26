@@ -75,7 +75,7 @@ export const getAllPsychologist = async (req: Request, res: Response) => {
 };
 
 // GET /user/chat/:id
-export const getUserChat = async ({ req, res }: any) => {
+export const getUserChat = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     // Ambil data chat berdasarkan id
