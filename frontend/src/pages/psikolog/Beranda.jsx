@@ -56,10 +56,10 @@ const Beranda = () => {
       {/* Layanan Saya Section */}
       <div className="mb-6 border py-4 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold px-4">Layanan Saya</h2>
+          <h2 className="text-base lg:text-lg font-semibold px-4">Layanan Saya</h2>
           <button
             onClick={() => setViewAllConsul((prevViewAll) => (prevViewAll === consultations.length ? 2 : consultations.length))}
-            className="flex items-center text-sm text-[#35A7FF] font-semibold"
+            className="flex items-center text-sm text-[#35A7FF] font-semibold px-4"
           >
             {viewAll === consultations.length ? "View Less" : "view All"}
             <IoIosArrowForward className="ml-1" />
@@ -67,32 +67,34 @@ const Beranda = () => {
         </div>
 
         {/* Table */}
-        <table className="w-full">
-          <thead>
-            <tr className="bg-[#EBF6FF]">
-              <th className="py-2 px-4 border-b text-m font-medium text-left border-gray-200">NO</th>
-              <th className="py-2 px-4 border-b text-m font-medium text-left border-gray-200">USER</th>
-              <th className="py-2 px-4 border-b text-m font-medium text-left border-gray-200">EMAIL</th>
-              <th className="py-2 px-4 border-b text-m font-medium text-left border-gray-200">STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {consultations.slice(0, viewAllConsul).map((data, index) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b border-gray-200">{index + 1}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{data.user.fullname}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{data.user.email}</td>
-                {data.status === "pending" && (
-                  <td className="py-2 px-4 border-b border-gray-200 text-orange-500">{data.status}</td>
-                )}
-                {data.status === "accepted" && (
-                  <td className="py-2 px-4 border-b border-gray-200 text-green-500">{data.status}</td>
-                )}
-                {data.status === "rejected" && <td className="py-2 px-4 border-b border-gray-200 text-red-500">{data.status}</td>}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[400px]">
+            <thead>
+              <tr className="bg-[#EBF6FF]">
+                <th className="py-2 px-3 border-b text-xs lg:text-sm font-medium text-left border-gray-200">NO</th>
+                <th className="py-2 px-3 border-b text-xs lg:text-sm font-medium text-left border-gray-200">USER</th>
+                <th className="py-2 px-3 border-b text-xs lg:text-sm font-medium text-left border-gray-200">EMAIL</th>
+                <th className="py-2 px-3 border-b text-xs lg:text-sm font-medium text-left border-gray-200">STATUS</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {consultations.slice(0, viewAllConsul).map((data, index) => (
+                <tr key={index}>
+                  <td className="py-2 px-3 border-b border-gray-200 text-xs lg:text-sm">{index + 1}</td>
+                  <td className="py-2 px-3 border-b border-gray-200 text-xs lg:text-sm">{data.user.fullname}</td>
+                  <td className="py-2 px-3 border-b border-gray-200 text-xs lg:text-sm">{data.user.email}</td>
+                  {data.status === "pending" && (
+                    <td className="py-2 px-3 border-b border-gray-200 text-xs lg:text-sm text-orange-500">{data.status}</td>
+                  )}
+                  {data.status === "accepted" && (
+                    <td className="py-2 px-3 border-b border-gray-200 text-xs lg:text-sm text-green-500">{data.status}</td>
+                  )}
+                  {data.status === "rejected" && <td className="py-2 px-3 border-b border-gray-200 text-xs lg:text-sm text-red-500">{data.status}</td>}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Artikel Section */}

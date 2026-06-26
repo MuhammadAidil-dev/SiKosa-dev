@@ -16,7 +16,7 @@ const DokterDetail = ({ psikolog }) => {
         src={psikolog.profile.picture ? CONFIG.BASE_URL + psikolog.profile.picture : PLACEHOLDER_IMAGE}
         onError={handleImageError}
         alt={psikolog.profile.fullname}
-        className="w-full h-64 rounded-md object-cover mb-4 mx-auto"
+        className="w-full h-40 lg:h-64 rounded-md object-cover mb-4 mx-auto"
       />
       <h3 className="text-2xl text-[#35A7FF] font-semibold text-center mb-4">{psikolog.profile.fullname}</h3>
       <div>
