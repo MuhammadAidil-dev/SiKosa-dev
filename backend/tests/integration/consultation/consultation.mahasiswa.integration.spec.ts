@@ -174,6 +174,7 @@ describe("Consultation Integration - Mahasiswa", () => {
       await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
@@ -230,12 +231,14 @@ describe("Consultation Integration - Mahasiswa", () => {
       await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
       await ConsultationModel.create({
         userId: new mongoose.Types.ObjectId(),
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
@@ -308,6 +311,7 @@ describe("Consultation Integration - Mahasiswa", () => {
       const cons = await ConsultationModel.create({
         userId: otherUser,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
@@ -326,6 +330,7 @@ describe("Consultation Integration - Mahasiswa", () => {
       const cons = await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
