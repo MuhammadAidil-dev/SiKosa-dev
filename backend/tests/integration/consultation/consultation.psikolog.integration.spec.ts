@@ -103,9 +103,9 @@ describe("Consultation Integration - Psikolog", () => {
 
     test("TC-INT-CONS-PSI-004 : ada consultation - should return data sesuai DB", async () => {
       await ConsultationModel.create([
-        { userId: mahasiswaId, psychologistId: psikologId, status: "pending" },
-        { userId: mahasiswaId, psychologistId: psikologId, status: "accepted" },
-        { userId: mahasiswaId, psychologistId: psikologId, status: "rejected" },
+        { userId: mahasiswaId, psychologistId: psikologId, message: "test", status: "pending" },
+        { userId: mahasiswaId, psychologistId: psikologId, message: "test", status: "accepted" },
+        { userId: mahasiswaId, psychologistId: psikologId, message: "test", status: "rejected" },
       ]);
 
       const res = await apiTest({
@@ -133,8 +133,8 @@ describe("Consultation Integration - Psikolog", () => {
       });
 
       await ConsultationModel.create([
-        { userId: mahasiswaId, psychologistId: psikologId, status: "pending" },
-        { userId: mahasiswaId, psychologistId: other._id, status: "pending" },
+        { userId: mahasiswaId, psychologistId: psikologId, message: "test", status: "pending" },
+        { userId: mahasiswaId, psychologistId: other._id, message: "test", status: "pending" },
       ]);
 
       const res = await apiTest({
@@ -153,6 +153,7 @@ describe("Consultation Integration - Psikolog", () => {
       await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
@@ -240,6 +241,7 @@ describe("Consultation Integration - Psikolog", () => {
       const cons = await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: other._id,
+        message: "test",
         status: "pending",
       });
 
@@ -259,6 +261,7 @@ describe("Consultation Integration - Psikolog", () => {
       const cons = await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
@@ -278,6 +281,7 @@ describe("Consultation Integration - Psikolog", () => {
       const cons = await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "accepted",
       });
 
@@ -297,6 +301,7 @@ describe("Consultation Integration - Psikolog", () => {
       const cons = await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
@@ -328,6 +333,7 @@ describe("Consultation Integration - Psikolog", () => {
       const cons = await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
@@ -359,6 +365,7 @@ describe("Consultation Integration - Psikolog", () => {
       const cons = await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
@@ -381,6 +388,7 @@ describe("Consultation Integration - Psikolog", () => {
       const cons = await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
@@ -402,6 +410,7 @@ describe("Consultation Integration - Psikolog", () => {
       const cons = await ConsultationModel.create({
         userId: mahasiswaId,
         psychologistId: psikologId,
+        message: "test",
         status: "pending",
       });
 
