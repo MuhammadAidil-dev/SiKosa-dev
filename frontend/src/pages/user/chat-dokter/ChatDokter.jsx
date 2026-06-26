@@ -105,60 +105,60 @@ const ChatDokter = () => {
   // Fetch chat rooms
   useEffect(() => {
     const fetchChatRooms = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      const response = await axios.get(`${SOCKET_URL}/api/chat/rooms`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.data.length > 0) {
+        const lastRoom = response.data.slice(-1)[0];
+        const dataMessages = lastRoom.messages;
+        setMessages(
+          dataMessages.map((data) => ({
+            ...data,
+            content: data.message,
+          }))
+        );
+        setStatusRoom({ status: lastRoom.status });
+        setRoomChat(lastRoom._id);
+      }
+    };
+
+    const fetchConsultations = async () => {
+      const { error, message, consultations } = await getHistoryConsultations();
+      if (error) {
+        throw new Error(message);
+      }
+      if (consultations) {
+        const lastConsultation = consultations.filter((data) => data.psychologist._id === id_psikolog).slice(-1)[0];
+
+        console.log("lastConsultation", consultations);
+
+        if (lastConsultation) {
+          setStatusPengajuan({ status: lastConsultation.status, createdAt: lastConsultation.createdAt });
+        }
+      }
+    };
+
+    const fetchAll = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-          throw new Error("No token found");
-        }
-
-        const response = await axios.get(`${SOCKET_URL}/api/chat/rooms`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.data.length > 0) {
-          const lastRoom = response.data.slice(-1)[0];
-          const dataMessages = lastRoom.messages;
-          setMessages(
-            dataMessages.map((data) => ({
-              ...data,
-              content: data.message,
-            }))
-          );
-          setStatusRoom({ status: lastRoom.status });
-          setRoomChat(lastRoom._id);
-        }
+        await Promise.all([fetchChatRooms(), fetchConsultations()]);
       } catch (err) {
-        console.error("Failed to fetch chat rooms:", err);
-        toast.error("Failed to load chat history");
+        console.error("Failed to fetch data:", err);
+        toast.error("Failed to load data");
       } finally {
         setLoading(false);
       }
     };
 
-    // get consultation data
-    const fetchConsultations = async () => {
-      try {
-        const { error, message, consultations } = await getHistoryConsultations();
-        if (error) {
-          throw new Error(message);
-        }
-        if (consultations) {
-          const lastConsultation = consultations.filter((data) => data.psychologist._id === id_psikolog).slice(-1)[0];
-
-          console.log("lastConsultation", consultations);
-
-          setStatusPengajuan({ status: lastConsultation.status, createdAt: lastConsultation.createdAt });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     if (authUser) {
-      fetchChatRooms();
-      fetchConsultations();
+      fetchAll();
     }
   }, [authUser]);
 
@@ -349,7 +349,7 @@ const PengajuanKonsultasi = ({ handlePengajuan, psikolog, statusPengajuan, authU
 
 const ChatSection = ({ messages, message, setMessage, handleSendMessage, psikolog }) => {
   return (
-    <div className="flex-1 lg:w-2/3 border bg-[#EBF6FF] px-4 py-8 rounded-lg shadow-lg flex flex-col h-[500px]">
+    <div className="flex-1 lg:w-2/3 border bg-[#EBF6FF] px-4 py-4 rounded-lg shadow-lg flex flex-col h-[400px] lg:h-[500px]">
       <PesanChat messages={messages} psikolog={psikolog} />
       <ChatInput message={message} setMessage={setMessage} handleSendMessage={handleSendMessage} />
     </div>
