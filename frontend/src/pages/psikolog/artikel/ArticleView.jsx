@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import parse from "html-react-parser";
-import { formattedDate } from "../../../utils/utils";
+import { formattedDate, handleImageError } from "../../../utils/utils";
 import { useEffect, useState } from "react";
 import { getArticleBySlug } from "../../../utils/api";
 import CONFIG from "../../../config/config";
@@ -72,6 +72,7 @@ const ArtikelView = () => {
           <div className="flex-1 justify-center items-center flex">
             <img
               src={CONFIG.BASE_URL + thumbnail}
+              onError={handleImageError}
               alt="Thumbnail"
               className="w-40 h-40 sm:w-60 sm:h-60 md:w-80 md:h-72 object-cover"
             />

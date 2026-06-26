@@ -24,6 +24,15 @@ const getAccessToken = () => {
   return localStorage.getItem("accessToken") || null;
 };
 
+const PLACEHOLDER_IMAGE = "/assets/anonymous.png";
+
+// onError handler untuk <img>: ganti ke placeholder saat src 404/gagal.
+// set onerror = null supaya tidak infinite loop kalau placeholder juga gagal.
+const handleImageError = (e) => {
+  e.target.onerror = null;
+  e.target.src = PLACEHOLDER_IMAGE;
+};
+
 const formattedDate = (date) => {
   return new Date(date).toLocaleDateString("id-ID", {
     weekday: "long",
@@ -58,4 +67,6 @@ export {
   formattedDate,
   formattedTitle,
   formattedString,
+  PLACEHOLDER_IMAGE,
+  handleImageError,
 };

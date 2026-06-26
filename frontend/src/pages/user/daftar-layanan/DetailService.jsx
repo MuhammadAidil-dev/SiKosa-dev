@@ -4,7 +4,7 @@ import { FaChevronLeft } from "react-icons/fa";
 import { getPsikologByIdPublic } from "../../../utils/api";
 import { useAuth } from "../../../hooks/hooks";
 import CONFIG from "../../../config/config";
-import { formattedString } from "../../../utils/utils";
+import { formattedString, PLACEHOLDER_IMAGE, handleImageError } from "../../../utils/utils";
 
 const DetailPsikolog = () => {
   const { id_psikolog } = useParams();
@@ -65,8 +65,9 @@ const DetailPsikolog = () => {
         {/* Psikolog Image */}
         <img
           src={
-            psikologDetail.profile.picture ? CONFIG.BASE_URL + psikologDetail.profile.picture : "https://via.placeholder.com/150"
+            psikologDetail.profile.picture ? CONFIG.BASE_URL + psikologDetail.profile.picture : PLACEHOLDER_IMAGE
           }
+          onError={handleImageError}
           alt={psikologDetail.profile.fullname}
           className="w-full h-80 object-cover mb-4 rounded-md mx-auto"
         />

@@ -5,6 +5,7 @@ import { useAuth } from "../../../hooks/hooks";
 import { updateProfile } from "../../../utils/api";
 import CONFIG from "../../../config/config";
 import { toast } from "react-toastify";
+import { PLACEHOLDER_IMAGE, handleImageError } from "../../../utils/utils";
 
 const EditProfile = () => {
   const { authUser, handleAuthUserChange } = useAuth();
@@ -81,7 +82,8 @@ const EditProfile = () => {
               <img src={previewImage} alt="Profile" className="w-[400px] h-80 object-cover rounded-lg" />
             ) : (
               <img
-                src={authUser.profile.picture ? CONFIG.BASE_URL + authUser.profile.picture : "https://via.placeholder.com/150"}
+                src={authUser.profile.picture ? CONFIG.BASE_URL + authUser.profile.picture : PLACEHOLDER_IMAGE}
+                onError={handleImageError}
                 alt="Profile"
                 className="w-[400px] h-80 object-cover rounded-lg"
               />

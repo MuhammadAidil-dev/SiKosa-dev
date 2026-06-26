@@ -4,6 +4,7 @@ import CONFIG from "../../../config/config";
 import ModalConfirm from "../../ModalConfirm";
 import { toast } from "react-toastify";
 import { AdminDeleteArticle } from "../../../utils/api";
+import { handleImageError } from "../../../utils/utils";
 
 const TableArtikel = ({ data, currentPage, itemsPerPage, getCurrendArticles }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -60,6 +61,7 @@ const TableArtikel = ({ data, currentPage, itemsPerPage, getCurrendArticles }) =
               <td className="py-2 px-4 border-b border-gray-200">
                 <img
                   src={CONFIG.BASE_URL + item.thumbnail}
+                  onError={handleImageError}
                   alt={item.title}
                   className="w-16 h-16 object-cover rounded-md"
                 />

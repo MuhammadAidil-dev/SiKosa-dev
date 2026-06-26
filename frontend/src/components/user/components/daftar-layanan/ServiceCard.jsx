@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import CONFIG from "../../../../config/config";
-import { formattedString } from "../../../../utils/utils";
+import { formattedString, PLACEHOLDER_IMAGE, handleImageError } from "../../../../utils/utils";
 
 const ServiceCard = ({ data, index }) => {
   return (
@@ -16,7 +16,8 @@ const ServiceCard = ({ data, index }) => {
     >
       <Link to={`/daftar-layanan/${data.id}`} className="mb-4">
         <img
-          src={data.profile.picture ? CONFIG.BASE_URL + data.profile.picture : "https://via.placeholder.com/150"}
+          src={data.profile.picture ? CONFIG.BASE_URL + data.profile.picture : PLACEHOLDER_IMAGE}
+          onError={handleImageError}
           alt={data.profile.fullname}
           className="w-full h-48 object-cover rounded-md"
         />

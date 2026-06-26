@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import CONFIG from "../../../../config/config";
-import { formattedDate, formattedTitle } from "../../../../utils/utils";
+import { formattedDate, formattedTitle, handleImageError } from "../../../../utils/utils";
 import parse from "html-react-parser";
 
 const ArtikelCard = ({ article }) => {
@@ -13,6 +13,7 @@ const ArtikelCard = ({ article }) => {
         <div className="flex-1">
           <img
             src={CONFIG.BASE_URL + article.thumbnail}
+            onError={handleImageError}
             className="w-full h-48 object-cover"
             alt={article.title}
           />

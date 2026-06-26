@@ -3,7 +3,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { useAuth } from "../../hooks/hooks";
 import { getArticles, getNotifications } from "../../utils/api";
 import CONFIG from "../../config/config";
-import { formattedDate, formattedTitle } from "../../utils/utils";
+import { formattedDate, formattedTitle, handleImageError } from "../../utils/utils";
 
 const Beranda = () => {
   const { authUser } = useAuth();
@@ -114,7 +114,7 @@ const Beranda = () => {
             {articles.slice(0, viewAll).map((article, index) => {
               return (
                 <div key={index} className=" p-2 mb-4 bg-white border border-gray-400 rounded-lg flex items-center">
-                  <img src={CONFIG.BASE_URL + article.thumbnail} alt={article.title} className="w-16 h-16 object-cover mr-4" />
+                  <img src={CONFIG.BASE_URL + article.thumbnail} onError={handleImageError} alt={article.title} className="w-16 h-16 object-cover mr-4" />
                   <div className="space-y-2">
                     <h3 className="text-md font-normal">{formattedTitle(article.title)}</h3>
                     <p className="text-gray-600 text-xs">{formattedDate(article.createdAt)}</p>
