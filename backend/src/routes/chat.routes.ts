@@ -4,9 +4,9 @@ import authenticate from "../middleware/authenticate";
 
 const chatRoutes = express.Router();
 
-chatRoutes.get("/rooms", getUserChatRooms);
-chatRoutes.get("/messages/:roomId", getRoomMessages);
-chatRoutes.post("/messages", sendMessage);
-chatRoutes.patch("/finish/:roomId", updateStatus);
+chatRoutes.get("/rooms", authenticate, getUserChatRooms);
+chatRoutes.get("/messages/:roomId", authenticate, getRoomMessages);
+chatRoutes.post("/messages", authenticate, sendMessage);
+chatRoutes.patch("/finish/:roomId", authenticate, updateStatus);
 
 export default chatRoutes;

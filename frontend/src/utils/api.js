@@ -1,24 +1,41 @@
 import CONFIG from "../config/config";
 import { getAccessToken } from "./utils";
 
+const handleExpiredSession = () => {
+  localStorage.removeItem("authUser");
+  localStorage.removeItem("accessToken");
+  window.location.href = "/login";
+};
+
+const fetchWithAuth = async (url, options = {}) => {
+  const accessToken = getAccessToken();
+  if (!accessToken) throw new Error("Invalid access token");
+
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (response.status === 401) {
+    handleExpiredSession();
+    throw new Error("Sesi habis, silakan login kembali");
+  }
+
+  return response;
+};
+
 const updateProfile = async (formData) => {
   try {
-    const accessToken = getAccessToken();
-
-    if (!accessToken) {
-      throw new Error("Invalid accessToken");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/user/profile`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/user/profile`, {
       method: "PUT",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
       body: formData,
     });
     if (!response.ok) {
       throw new Error("Failed to update user");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, data: result.data };
   } catch (error) {
@@ -28,21 +45,13 @@ const updateProfile = async (formData) => {
 
 const updateProfilePsikolog = async (formData) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid accessToken");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/psikolog/profile`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/psikolog/profile`, {
       method: "PUT",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
       body: formData,
     });
     if (!response.ok) {
       throw new Error("Failed to update user");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, data: result.data };
   } catch (error) {
@@ -52,20 +61,10 @@ const updateProfilePsikolog = async (formData) => {
 
 const getAllPsikolog = async () => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/user/psikolog/all`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/user/psikolog/all`);
     if (!response.ok) {
       throw new Error("Failed to get psikologs");
     }
-
     const result = await response.json();
     if (result.data) {
       return { error: false, psikologs: result.data };
@@ -93,19 +92,10 @@ const getAllPsikologPublic = async () => {
 
 const getPsikologById = async (psikologId) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/user/psikolog/${psikologId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/user/psikolog/${psikologId}`);
     if (!response.ok) {
       throw new Error("Failed to get detail psikolog");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, data: result.data };
   } catch (error) {
@@ -168,21 +158,13 @@ const getArticleBySlug = async (slug) => {
 
 const createArticle = async (formData) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/psikolog/articles`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/psikolog/articles`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
       body: formData,
     });
     if (!response.ok) {
       throw new Error("Failed to create article");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, data: result.data };
   } catch (error) {
@@ -192,21 +174,13 @@ const createArticle = async (formData) => {
 
 const editArticle = async (formData, articleId) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/psikolog/articles/${articleId}`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/psikolog/articles/${articleId}`, {
       method: "PUT",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
       body: formData,
     });
     if (!response.ok) {
       throw new Error("Failed to update article");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, data: result.data };
   } catch (error) {
@@ -216,20 +190,12 @@ const editArticle = async (formData, articleId) => {
 
 const deleteArticle = async (articleId) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/psikolog/articles/${articleId}`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/psikolog/articles/${articleId}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     });
     if (!response.ok) {
       throw new Error("Failed to delete article");
     }
-
     const result = await response.json();
     return { error: false, message: result.message };
   } catch (error) {
@@ -239,19 +205,10 @@ const deleteArticle = async (articleId) => {
 
 const getAllUsers = async () => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/users/all`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/users/all`);
     if (!response.ok) {
       throw new Error("Failed to get all users");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, users: result.data };
   } catch (error) {
@@ -261,20 +218,12 @@ const getAllUsers = async () => {
 
 const deleteUserById = async (userId) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/users/${userId}`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/users/${userId}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     });
     if (!response.ok) {
       throw new Error("Failed to delete user");
     }
-
     const result = await response.json();
     return { error: false, message: result.message };
   } catch (error) {
@@ -284,22 +233,16 @@ const deleteUserById = async (userId) => {
 
 const createUser = async (dataUser) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/users`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(dataUser),
     });
     if (!response.ok) {
       throw new Error("Failed to create user");
     }
-
     const result = await response.json();
     return { error: false, message: result.message };
   } catch (error) {
@@ -309,19 +252,10 @@ const createUser = async (dataUser) => {
 
 const getUserById = async (idUser) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/users/${idUser}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/users/${idUser}`);
     if (!response.ok) {
       throw new Error("Failed to get user");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, user: result.data };
   } catch (error) {
@@ -331,22 +265,16 @@ const getUserById = async (idUser) => {
 
 const AdminUpdateUser = async (data, idUser) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/users/${idUser}`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/users/${idUser}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(data),
     });
     if (!response.ok) {
       throw new Error("Failed to update user");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, user: result.data };
   } catch (error) {
@@ -354,18 +282,9 @@ const AdminUpdateUser = async (data, idUser) => {
   }
 };
 
-// admin
 const AdminGetArticles = async () => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/articles`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/articles`);
     if (!response.ok) {
       throw new Error("Failed to get articles");
     }
@@ -378,21 +297,13 @@ const AdminGetArticles = async () => {
 
 const AdmincreateArticle = async (formData) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/articles`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/articles`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
       body: formData,
     });
     if (!response.ok) {
       throw new Error("Failed to create article");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, data: result.data };
   } catch (error) {
@@ -402,20 +313,12 @@ const AdmincreateArticle = async (formData) => {
 
 const AdminDeleteArticle = async (articleId) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/articles/${articleId}`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/articles/${articleId}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
     });
     if (!response.ok) {
       throw new Error("Failed to delete article");
     }
-
     const result = await response.json();
     return { error: false, message: result.message };
   } catch (error) {
@@ -425,21 +328,13 @@ const AdminDeleteArticle = async (articleId) => {
 
 const AdminEditArticle = async (formData, articleId) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/articles/${articleId}`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/articles/${articleId}`, {
       method: "PUT",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
       body: formData,
     });
     if (!response.ok) {
       throw new Error("Failed to update article");
     }
-
     const result = await response.json();
     return { error: false, message: result.message, data: result.data };
   } catch (error) {
@@ -449,15 +344,7 @@ const AdminEditArticle = async (formData, articleId) => {
 
 const getArticleById = async (idArticle) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/articles/${idArticle}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/articles/${idArticle}`);
     if (!response.ok) {
       throw new Error("Failed to get articles");
     }
@@ -470,20 +357,13 @@ const getArticleById = async (idArticle) => {
 
 const createPengajuanKonsultasi = async ({ message, psychologistId }) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-
-    const response = await fetch(`${CONFIG.BASE_URL}/consultation/apply`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/consultation/apply`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({ message, psychologistId }),
     });
-
     if (!response.ok) {
       throw new Error("Gagal melakukan pengajuan konsultasi");
     }
@@ -494,20 +374,9 @@ const createPengajuanKonsultasi = async ({ message, psychologistId }) => {
   }
 };
 
-// psikolog get notification
 const getNotifications = async () => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-
-    const response = await fetch(`${CONFIG.BASE_URL}/psikolog/notifications`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/psikolog/notifications`);
     if (!response.ok) {
       throw new Error("Gagal mengambil notifications");
     }
@@ -518,23 +387,15 @@ const getNotifications = async () => {
   }
 };
 
-// psikolog accept konsultasi
 const psikologHandleConcultationRequest = async (consultationId, status) => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-
-    const response = await fetch(`${CONFIG.BASE_URL}/consultation/${consultationId}/status`, {
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/consultation/${consultationId}/status`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(status),
     });
-
     if (!response.ok) {
       throw new Error("Failed to update consultation request");
     }
@@ -545,20 +406,9 @@ const psikologHandleConcultationRequest = async (consultationId, status) => {
   }
 };
 
-// user get consultations
 const getHistoryConsultations = async () => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-
-    const response = await fetch(`${CONFIG.BASE_URL}/user/consultation/history`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/user/consultation/history`);
     if (!response.ok) {
       throw new Error("Failed to get consultation history");
     }
@@ -569,20 +419,9 @@ const getHistoryConsultations = async () => {
   }
 };
 
-// admin get consultation
 const adminGetConsultations = async () => {
   try {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error("Invalid access token");
-    }
-
-    const response = await fetch(`${CONFIG.BASE_URL}/admin/consultation/all`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
+    const response = await fetchWithAuth(`${CONFIG.BASE_URL}/admin/consultation/all`);
     if (!response.ok) {
       throw new Error("Failed to get consultation history");
     }
@@ -592,6 +431,7 @@ const adminGetConsultations = async () => {
     return { error: true, message: error.message, consultations: null };
   }
 };
+
 export {
   updateProfile,
   getAllPsikolog,

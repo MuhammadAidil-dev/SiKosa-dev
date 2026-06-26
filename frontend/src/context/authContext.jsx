@@ -17,26 +17,32 @@ export const AuthProvider = ({ children }) => {
     putAccessTokenSession(dataAccessToken);
   };
 
+  const clearSession = () => {
+    setAuthUser(null);
+    setAccessToken(null);
+    localStorage.removeItem("authUser");
+    localStorage.removeItem("accessToken");
+  };
+
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${CONFIG.BASE_URL}/auth/logout`, {
+      await fetch(`${CONFIG.BASE_URL}/auth/logout`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      if (!response.ok) {
-        throw new Error("Error internal server");
-      }
-
-      setAuthUser(null);
-      setAccessToken(null);
-      localStorage.removeItem("authUser");
-      localStorage.removeItem("accessToken");
+    } catch (_) {
+      // best-effort server logout; always clear client session
+    } finally {
+      clearSession();
       window.location.href = "/login";
-    } catch (error) {
-      alert(error.message);
     }
+  };
+
+  const handleUnauthorized = () => {
+    clearSession();
+    window.location.href = "/login";
   };
 
   return (
@@ -45,6 +51,7 @@ export const AuthProvider = ({ children }) => {
         authUser,
         handleAuthUserChange,
         handleLogout,
+        handleUnauthorized,
         accessToken,
         handleAccessToken,
       }}
