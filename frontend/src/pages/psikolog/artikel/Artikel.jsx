@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { deleteArticle, getArticlesByWriter } from "../../../utils/api";
 import CONFIG from "../../../config/config";
+import { handleImageError } from "../../../utils/utils";
 import { useAuth } from "../../../hooks/hooks";
 import { toast } from "react-toastify";
 import ModalConfirm from "../../../components/ModalConfirm";
@@ -178,6 +179,7 @@ const ArticleCard = ({
       )}
       <img
         src={CONFIG.BASE_URL + articleData.thumbnail}
+        onError={handleImageError}
         alt="Article 1"
         className="w-16 h-16 object-cover mr-4"
       />

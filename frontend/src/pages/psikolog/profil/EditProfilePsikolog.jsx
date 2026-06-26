@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/hooks";
 import CONFIG from "../../../config/config";
+import { PLACEHOLDER_IMAGE, handleImageError } from "../../../utils/utils";
 import { updateProfilePsikolog } from "../../../utils/api";
 import { toast } from "react-toastify";
 
@@ -112,8 +113,9 @@ const EditProfilePsikolog = () => {
                 src={
                   authUser?.profile?.picture
                     ? CONFIG.BASE_URL + authUser.profile.picture
-                    : "https://via.placeholder.com/150"
+                    : PLACEHOLDER_IMAGE
                 }
+                onError={handleImageError}
                 alt="Profile"
                 className="w-full h-full object-cover rounded-lg"
               />

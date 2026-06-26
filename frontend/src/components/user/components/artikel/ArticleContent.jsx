@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CONFIG from "../../../../config/config";
-import { formattedDate } from "../../../../utils/utils";
+import { formattedDate, handleImageError } from "../../../../utils/utils";
 import parse from "html-react-parser";
 import { getPsikologById } from "../../../../utils/api";
 
@@ -50,6 +50,7 @@ const ArticleContent = ({ article }) => {
         <div className="flex-1 justify-center items-center flex">
           <img
             src={CONFIG.BASE_URL + article.thumbnail}
+            onError={handleImageError}
             alt="Thumbnail"
             className="w-40 h-40 sm:w-60 sm:h-60 md:w-80 md:h-72 object-cover"
           />

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../hooks/hooks";
 import CONFIG from "../../../config/config";
+import { PLACEHOLDER_IMAGE, handleImageError } from "../../../utils/utils";
 
 const ProfilePsikolog = () => {
   const { authUser } = useAuth();
@@ -21,12 +22,13 @@ const ProfilePsikolog = () => {
             {authUser?.profile?.picture ? (
               <img
                 src={CONFIG.BASE_URL + authUser.profile.picture}
+                onError={handleImageError}
                 alt="Profile"
                 className="w-full h-80 object-cover rounded-lg"
               />
             ) : (
               <img
-                src="https://via.placeholder.com/150"
+                src={PLACEHOLDER_IMAGE}
                 alt="Profile"
                 className="w-full h-80 object-cover rounded-lg"
               />

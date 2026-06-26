@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../../../../hooks/hooks";
 import CONFIG from "../../../../config/config";
+import { handleImageError } from "../../../../utils/utils";
 
 const PesanChat = ({ messages, psikolog }) => {
   const { authUser } = useAuth();
@@ -24,6 +25,7 @@ const PesanChat = ({ messages, psikolog }) => {
           {msg.senderId === psikolog._id && (
             <img
               src={CONFIG.BASE_URL + psikolog.profile.picture}
+              onError={handleImageError}
               alt="Doctor"
               className="w-8 h-8 object-cover rounded-full mr-2"
             />

@@ -4,6 +4,7 @@ import { FaBars, FaTimes, FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { useAuth } from "../../../hooks/hooks";
 import CONFIG from "../../../config/config";
+import { handleImageError } from "../../../utils/utils";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -145,6 +146,7 @@ const Navbar = () => {
                 {user.image ? (
                   <img
                     src={`${CONFIG.BASE_URL}${user.image}`}
+                    onError={handleImageError}
                     alt="Profile"
                     className="w-10 h-10 rounded-full border border-[#35A7FF] object-cover mr-2"
                   />
@@ -203,6 +205,7 @@ const Navbar = () => {
               {user.image ? (
                 <img
                   src={CONFIG.BASE_URL + user.image}
+                  onError={handleImageError}
                   alt="Profile"
                   className="w-10 h-10 rounded-full border border-[#35A7FF] object-cover mr-2 shrink-0"
                 />

@@ -8,6 +8,7 @@ import { useAuth } from "../../../hooks/hooks";
 import CONFIG from "../../../config/config";
 import { FaUser } from "react-icons/fa";
 import { getNotifications } from "../../../utils/api";
+import { handleImageError } from "../../../utils/utils";
 import axios from "axios";
 
 const PsikologSidebar = () => {
@@ -41,7 +42,7 @@ const PsikologSidebar = () => {
   useEffect(() => {
     const fetchChatRooms = async () => {
       try {
-        const token = sessionStorage.getItem("accessToken");
+        const token = localStorage.getItem("accessToken");
         if (!token) {
           throw new Error("No token found");
         }
@@ -204,6 +205,7 @@ const PsikologSidebar = () => {
             {authUser?.profile.picture ? (
               <img
                 src={CONFIG.BASE_URL + authUser.profile.picture}
+                onError={handleImageError}
                 alt="Profile"
                 className="w-12 h-12 object-cover rounded-full"
               />

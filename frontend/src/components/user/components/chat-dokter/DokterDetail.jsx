@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import CONFIG from "../../../../config/config";
+import { PLACEHOLDER_IMAGE, handleImageError } from "../../../../utils/utils";
 
 const DokterDetail = ({ psikolog }) => {
   return (
@@ -12,7 +13,8 @@ const DokterDetail = ({ psikolog }) => {
       className="w-full lg:w-1/3 border p-4 rounded-lg shadow-lg mb-4 lg:mb-0"
     >
       <img
-        src={CONFIG.BASE_URL + psikolog.profile.picture}
+        src={psikolog.profile.picture ? CONFIG.BASE_URL + psikolog.profile.picture : PLACEHOLDER_IMAGE}
+        onError={handleImageError}
         alt={psikolog.profile.fullname}
         className="w-full h-64 rounded-md object-cover mb-4 mx-auto"
       />

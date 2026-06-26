@@ -1,13 +1,14 @@
 import React from "react";
 import CONFIG from "../../../../config/config";
-import { formattedString } from "../../../../utils/utils";
+import { formattedString, PLACEHOLDER_IMAGE, handleImageError } from "../../../../utils/utils";
 import { Link } from "react-router-dom";
 
 const LayananItem = ({ data }) => {
   return (
     <div className="p-4 border rounded-lg shadow-lg bg-white">
       <img
-        src={data.profile.picture ? CONFIG.BASE_URL + data.profile.picture : "https://via.placeholder.com/150"}
+        src={data.profile.picture ? CONFIG.BASE_URL + data.profile.picture : PLACEHOLDER_IMAGE}
+        onError={handleImageError}
         alt={data.profile.fullname}
         className="w-full h-40 object-cover rounded-md"
       />
